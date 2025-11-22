@@ -1,0 +1,26 @@
+{
+	"tasks": {
+		"1": {
+			"id": 1,
+			"description": "new2",
+			"status": "todo",
+			"createdAt": "2025-11-22T16:38:40.6098641+03:00",
+			"updatedAt": "2025-11-22T16:38:40.6098641+03:00"
+		},
+		"5": {
+			"id": 5,
+			"description": "some_tasks",
+			"status": "todo",
+			"createdAt": "2025-11-22T17:08:46.5185933+03:00",
+			"updatedAt": "2025-11-22T17:08:46.5185933+03:00"
+		},
+		"6": {
+			"id": 6,
+			"description": "want_coffee",
+			"status": "todo",
+			"createdAt": "2025-11-22T17:09:00.0605489+03:00",
+			"updatedAt": "2025-11-22T17:09:00.0605489+03:00"
+		}
+	},
+	"nextId": 7
+}

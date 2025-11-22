@@ -1,0 +1,92 @@
+package main
+
+// main.go
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"tasktracker/task"
+)
+
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for scanner.Scan() {
+
+		stroke := scanner.Text()
+
+		if len(strings.Fields(stroke)) < 2 {
+			continue
+		}
+
+		if strings.Fields(stroke)[0] != "task-cli" {
+			continue
+		}
+
+		stroke_without_cli := strings.Fields(stroke)[1:]
+
+		Parse_Command(stroke_without_cli)
+	}
+}
+
+func Parse_Command(stroke []string) {
+	switch stroke[0] {
+	case "add":
+		if len(stroke) < 2 {
+			fmt.Println("no description for new task")
+			return
+		}
+
+		description := stroke[1]
+
+		id, err := task.AddTask(description)
+
+		if err != nil {
+			fmt.Println("got error: ", err)
+			return
+		}
+
+		fmt.Printf("Task added successfully (ID: %d)\n", id)
+		return
+	case "update":
+		if len(stroke) < 3 {
+			fmt.Println("no id or description in command update")
+			return
+		}
+		id, err := strconv.Atoi(stroke[1])
+		if err != nil {
+			fmt.Println("cannot convert string to int ID", err)
+			return
+		}
+		if err := task.UpdateTask(id, stroke[2]); err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf("succesfully update task %s.\n", stroke[2])
+	case "delete":
+		if len(stroke) < 2 {
+			fmt.Println("no id to delete task")
+			return
+		}
+		id, err := strconv.Atoi(stroke[1])
+		if err != nil {
+			fmt.Println("cannot convert string to int ID", err)
+		}
+		if err := task.DeleteTask(id); err != nil {
+			fmt.Println(err)
+			return
+		}
+	case "list":
+		if err := task.ListTasks(); err != nil {
+			fmt.Println("failde to show you all tasks", err)
+			return
+		}
+		return
+	default:
+		fmt.Println("don't understand your command, try again")
+		return
+	}
+}
