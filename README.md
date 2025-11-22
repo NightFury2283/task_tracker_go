@@ -42,3 +42,5 @@ updatedAt: The date and time when the task was last updated
 ```
 
 Идентификатором является id, который генерируется автоматически
+
+idea from: https://roadmap.sh/projects/task-tracker
