@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+//файл хранит все структуры и типы для проекта
+
 type StorageData struct {
 	Tasks  map[int]Task `json:"tasks"`
 	NextID int          `json:"nextId"`

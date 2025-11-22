@@ -14,19 +14,19 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	for scanner.Scan() {
+	for scanner.Scan() { //считываем команды пользователя
 
 		stroke := scanner.Text()
 
-		if len(strings.Fields(stroke)) < 2 {
+		if len(strings.Fields(stroke)) < 2 { //если кроме task-cli ничего нет, то продолжаем
 			continue
 		}
 
-		if strings.Fields(stroke)[0] != "task-cli" {
+		if strings.Fields(stroke)[0] != "task-cli" { //если первая команда не task-cli, то продолжаем
 			continue
 		}
 
-		stroke_without_cli := strings.Fields(stroke)[1:]
+		stroke_without_cli := strings.Fields(stroke)[1:] //обрезаем
 
 		Parse_Command(stroke_without_cli)
 	}
@@ -117,7 +117,7 @@ func Parse_Command(stroke []string) {
 	}
 }
 
-func Parse_Command_List(stroke []string) {
+func Parse_Command_List(stroke []string) { //сюда попадаем если команда была List и что-то дальше
 	if err := task.ListWithParametr(stroke[0]); err != nil {
 		fmt.Println(err)
 		return
