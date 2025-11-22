@@ -80,13 +80,47 @@ func Parse_Command(stroke []string) {
 			return
 		}
 	case "list":
+		if len(stroke) > 1 {
+			Parse_Command_List(stroke[1:])
+			return
+		}
 		if err := task.ListTasks(); err != nil {
 			fmt.Println("failde to show you all tasks", err)
 			return
 		}
 		return
+	case "mark-in-progress":
+		if len(stroke) < 2 {
+			fmt.Println("no id in command")
+			return
+		}
+		id, err := strconv.Atoi(stroke[1])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		task.MarkTaskInProgress(id)
+	case "mark-done":
+		if len(stroke) < 2 {
+			fmt.Println("no id in command")
+			return
+		}
+		id, err := strconv.Atoi(stroke[1])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		task.MarkTaskDone(id)
 	default:
 		fmt.Println("don't understand your command, try again")
 		return
 	}
+}
+
+func Parse_Command_List(stroke []string) {
+	if err := task.ListWithParametr(stroke[0]); err != nil {
+		fmt.Println(err)
+		return
+	}
+	return
 }

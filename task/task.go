@@ -87,3 +87,68 @@ func ListTasks() error {
 	}
 	return nil
 }
+
+func MarkTaskInProgress(id int) error {
+	all_tasks, storage_next_id, err := storage.FileLoadTasks(file_path)
+	if err != nil {
+		return err
+	}
+
+	if _, ok := all_tasks[id]; !ok {
+		return errors.New("no such task in storage json file")
+	}
+
+	task_to_update_status := all_tasks[id]
+	task_to_update_status.Status = types.In_progress
+	all_tasks[id] = task_to_update_status
+
+	if err = storage.FileSaveTasks(file_path, all_tasks, storage_next_id); err != nil {
+		return err
+	}
+	return nil
+}
+
+func MarkTaskDone(id int) error {
+	all_tasks, storage_next_id, err := storage.FileLoadTasks(file_path)
+	if err != nil {
+		return err
+	}
+
+	if _, ok := all_tasks[id]; !ok {
+		return errors.New("no such task in storage json file")
+	}
+
+	task_to_update_status := all_tasks[id]
+	task_to_update_status.Status = types.Done
+	all_tasks[id] = task_to_update_status
+
+	if err = storage.FileSaveTasks(file_path, all_tasks, storage_next_id); err != nil {
+		return err
+	}
+	return nil
+}
+
+func ListWithParametr(parametr string) error {
+	if parametr != string(types.Done) && parametr != string(types.In_progress) && parametr != string(types.Todo) {
+		return errors.New("dont valid parametr for List")
+	}
+	all_tasks, _, err := storage.FileLoadTasks(file_path)
+
+	if err != nil {
+		return err
+	}
+
+	for _, value := range all_tasks {
+		if value.Status != types.Status(parametr) {
+			continue
+		}
+		fmt.Println("-----------------")
+		fmt.Println(value.ID)
+		fmt.Println(value.Description)
+		fmt.Println(value.Status)
+		fmt.Println(value.CreatedAt)
+		fmt.Println(value.UpdatedAt)
+		fmt.Println("-----------------")
+	}
+	return nil
+}
